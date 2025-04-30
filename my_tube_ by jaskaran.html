@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MY TUBE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #ece9e6, #ffffff);
+      color: #333;
+    }
+
+    header {
+      background: #ff0000;
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .content {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .upload-section {
+      margin: 2rem auto;
+    }
+
+    input[type="file"] {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .video-card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 320px;
+      transition: transform 0.3s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+
+    .like-btn, .download-btn {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .like-btn:hover, .download-btn:hover {
+      background-color: #c40811;
+    }
+
+    .like-count {
+      display: block;
+      margin-top: 0.4rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 1rem;
+      text-align: center;
+      background-color: #f1f1f1;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>MY TUBE</header>
+  <div class="content">
+    <h2>Upload One Video at a Time</h2>
+    <div class="upload-section">
+      <input type="file" id="videoUpload" accept="video/*" />
+    </div>
+    <div class="video-container" id="videoContainer"></div>
+  </div>
+  <footer>Made by Jaskaran</footer>
+
+  <script>
+    document.getElementById('videoUpload').addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const videoContainer = document.getElementById('videoContainer');
+      const videoURL = URL.createObjectURL(file);
+
+      const card = document.createElement('div');
+      card.className = 'video-card';
+
+      const video = document.createElement('video');
+      video.src = videoURL;
+      video.controls = true;
+      video.muted = false;
+
+      const likeBtn = document.createElement('button');
+      likeBtn.className = 'like-btn';
+      likeBtn.innerHTML = '<i class="fas fa-thumbs-up"></i> Like';
+
+      const downloadBtn = document.createElement('a');
+      downloadBtn.href = videoURL;
+      downloadBtn.download = file.name;
+      downloadBtn.textContent = 'Download';
+      downloadBtn.className = 'download-btn';
+
+      const likeCount = document.createElement('span');
+      likeCount.className = 'like-count';
+      likeCount.textContent = '0 likes';
+
+      let likes = 0;
+      likeBtn.addEventListener('click', () => {
+        likes++;
+        likeCount.textContent = likes + (likes === 1 ? ' like' : ' likes');
+      });
+
+      card.appendChild(video);
+      card.appendChild(likeBtn);
+      card.appendChild(downloadBtn);
+      card.appendChild(likeCount);
+
+      videoContainer.appendChild(card);
+      this.value = '';
+    });
+  </script>
+</body>
+</html>
